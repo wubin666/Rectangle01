@@ -62,7 +62,14 @@ $(function() {
         h = $height.val();
 
     var r=new Reactangle(w,h);
-    
+    if(w===''){
+      $widthValidate.html('密码不能为空！');
+      $width.select();
+    }
+    if(h===''){
+      $heightValidate.html('高度不能为空！');
+      $height.select();
+    }
     $perimeter.val(r.perimeter());
     $area.val(r.area());
   });
