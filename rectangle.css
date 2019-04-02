@@ -35,3 +35,12 @@ span{
     margin-left:320px;
 }
 
+input:valid+span:after{
+  content:'√';
+  color:green;
+}
+input:invalid+span:after{
+  content:'×';
+  color:red;
+}
+
