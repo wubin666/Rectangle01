@@ -7,59 +7,32 @@ $(function() {
       $widthValidate = $('#width-validate'),
       $heightValidate = $('#height-validate');
 
-  $width.focusout(function(){
-    var w=$width.val();
-    if(w===''){
-      $widthValidate.html('宽度不能为空！');
-      $width.select();
-      return;   
-    } else {
-      $widthValidate.html('');
-    } 
-    if(Number(w)<0){
-      $widthValidate.html('宽度不能为负！');
-      $width.select();
-      return;   
-    }else{
-      $widthValidate.html('');   
-    }
-    if(!/^-?(0|[1-9]\d*)(\.\d*)?([eE][+-]?\d+)?$/.test(w)){
-      $widthValidate.html('宽度不是合法数字！');
-      $width.select();
-      return;    
-    }else{
-      $widthValidate.html('');     
-    }
-  }) ;
-
-  $height.focusout(function() {
-    var h=$height.val();
-    if(h===''){
-      $heightValidate.html('高度不能为空！');
-      $height.select();
-      return;
-    } else {
-      $heightValidate.html('');
-    } 
-    if(Number(h)<0){
-      $heightValidate.html('高度不能为负！');
-      $height.select();
-      return;
-    }else{
-      $heightValidate.html('');
-    }
-    if(!/^-?(0|[1-9]\d*)(\.\d*)?([eE][+-]?\d+)?$/.test(h)){
-      $heightValidate.html('高度不是合法数字！');
-      $height.select();
-      return;
-    }else{
-      $heightValidate.html('');   
+  $width.keypress(function(e){
+    if(/[abcdf-zABCDF-Z`~!@#$%^&*()=_+[\]{}|;:'",<>/?\\]/.test(e.key)){
+      e.preventDafault();
     }
   });
-
+  if(e.key === '.'){
+    if(e.target.value==='')e.preventDafault();
+    if(e.target.value.indexOf('.')!==-1){
+      e.preventDafault();
+    }else{
+      if(e.target.selectionStart===0)e.preventDafault();
+    }
+  }
   $btnCal.click(function(){
     var w = $width.val(),
         h = $height.val();
+    var validWidth=valid(w),
+        validHeight=valid(h);
+    if(!validWidth.isOK){
+      $widthValidate.html('宽度'+validWidth.reason);
+      return;
+    }
+    if(!validHeight.isOK){
+      $heightValidate.html('高度'+validHeight.reason);
+      return;
+    }
 
     var r=new Reactangle(w,h);
     
